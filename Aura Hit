@@ -54,7 +54,7 @@ button2.Activated:Connect(function()
 	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
 		if v.Name == "Pickaxe" then
 			v.Parent = game.Players.LocalPlayer.Character
-			break;
+			v:FindFirstChild("Handle").CanTouch = true
 		end
 	end
 end)
@@ -92,6 +92,9 @@ bind.Event:Connect(function()
 				
 			v:Activate()
 			v:FindFirstChild("Handle").CanCollide = false
+				firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"),0)
+				firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"),1)
+
 		end
 	end
 		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
