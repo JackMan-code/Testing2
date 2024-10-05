@@ -1,1 +1,110 @@
+local active = false
+local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+gui.ResetOnSpawn = false
+local button =  Instance.new("TextButton",gui) button.BackgroundColor3 = Color3.fromRGB(0,0,0)button.TextColor3 = Color3.fromRGB(255,255,255) button.FontFace = Font.fromName("PressStart2P") button.Text = "Enable Exploit" button.Position = UDim2.new(0, 0,0.238, 0) button.Size = UDim2.new(0.1,0,0.1,0) button.TextScaled = true
+local button2 =  Instance.new("TextButton",gui) button2.BackgroundColor3 = Color3.fromRGB(0,0,0) button2.TextColor3 = Color3.fromRGB(255,255,255) button2.FontFace = Font.fromName("PressStart2P")
+button2.Text = "Use Tool" button2.Position = UDim2.new(0, 0,0.238-.1, 0) button2.Size = UDim2.new(0.1,0,0.1,0) button2.TextScaled = true 
 
+local button4 =  Instance.new("TextButton",gui) button4.BackgroundColor3 = Color3.fromRGB(0,0,0) button4.TextColor3 = Color3.fromRGB(255,255,255) button4.FontFace = Font.fromName("PressStart2P")
+button4.Text = "Drop Tool" button4.Position = UDim2.new(0+.1, 0,0.238-.1, 0) button4.Size = UDim2.new(0.1,0,0.1,0) button4.TextScaled = true 
+
+local button3 =  Instance.new("TextButton",gui) button3.BackgroundColor3 = Color3.fromRGB(0,0,0)
+button3.TextColor3 = Color3.fromRGB(255,255,255) button3.FontFace = Font.fromName("PressStart2P") button3.Text = "Down"
+button3.Position = UDim2.new(0, 0,0.238-.1-.1, 0) button3.Size = UDim2.new(0.1,0,0.1,0) button3.TextScaled = true 
+local bind  = Instance.new("BindableEvent")
+local i = .3
+local grav = Instance.new("BodyVelocity")
+grav.MaxForce = Vector3.one*math.huge
+grav.Velocity = Vector3.zero
+game:GetService("UserInputService").JumpRequest:Connect(function()
+	if button3.Text == "Down" then
+		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.PrimaryPart.CFrame*CFrame.new(0,-1,0)) else game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.PrimaryPart.CFrame*CFrame.new(0,1,0)) 
+	end
+end)
+
+button.Activated:Connect(function()
+	if active == false then
+		active = true
+		for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			if v:IsA("BasePart") or v:IsA("UnionOperation") then
+				v.CanTouch = false
+                v.CanCollide = false
+			end
+		end
+		for _, accessory in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			if accessory:IsA("Accessory") then
+				-- Accessories have "Handle" parts, so loop through and disable Touched event for them
+				local handle = accessory:FindFirstChild("Handle")
+				if handle and handle:IsA("BasePart") then
+					handle.CanTouch = false
+				end
+		end
+		end
+		local grab = grav:Clone()
+		grab.Parent = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+		button.Text = "Enabled"
+		button.TextColor3 = Color3.fromRGB(0,255,0)	
+else
+		active = false
+		button.Text = "Enable Exploit"
+		button.TextColor3 = Color3.fromRGB(255,255,255)
+		end
+end)
+button2.Activated:Connect(function()
+	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if v.Name == "Pickaxe" then
+			v.Parent = game.Players.LocalPlayer.Character
+			break;
+		end
+	end
+end)
+button4.Activated:Connect(function()
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v:IsA("Tool") and v:FindFirstChild("Handle"):FindFirstChildWhichIsA("BodyAngularVelocity") == nil then
+			local grab = grav:Clone()
+			grab.Parent = v:FindFirstChild("Handle")
+			local spin = Instance.new("BodyAngularVelocity",v:FindFirstChild("Handle"))
+			spin.AngularVelocity = Vector3.new(1,1,0)*100
+			spin.MaxTorque = Vector3.one*math.huge
+			v:FindFirstChild("Handle").CanCollide = false
+			local weld = game.Players.LocalPlayer.Character:FindFirstChild("Right Arm"):FindFirstChildWhichIsA("Weld") or nil
+			if weld ~= nil then
+				weld:Destroy()
+			end
+			local number = v.Number.Value
+			v:FindFirstChild("Handle").Touched:Connect(function(hit)
+				firetouchinterest(hit,v:FindFirstChild("Handle"),0)
+				firetouchinterest(hit,v:FindFirstChild("Handle"),1)
+			end)
+			break;
+		end
+	end
+	
+end)
+button3.Activated:Connect(function()
+	if button3.Text == "Down" then
+		button3.Text = "Up" else button3.Text = "Down"
+	end
+end)
+bind.Event:Connect(function()
+	if active == true then
+	i+=.3
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v:IsA("Tool") then
+				
+			v:Activate()
+			v:FindFirstChild("Handle").CanCollide = false
+		end
+	end
+		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
+end
+end)
+delay(0,function()
+	while true do
+		task.wait()
+		if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid") and game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").Health > 0 then
+
+			bind:Fire()
+		end
+	end
+end)
