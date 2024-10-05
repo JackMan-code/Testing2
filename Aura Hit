@@ -1,3 +1,4 @@
+
 local active = false
 local onetime = false
 local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
@@ -12,6 +13,7 @@ button4.Text = "Drop Tool" button4.Position = UDim2.new(0+.1, 0,0.238-.1, 0) but
 local button3 =  Instance.new("TextButton",gui) button3.BackgroundColor3 = Color3.fromRGB(0,0,0)
 button3.TextColor3 = Color3.fromRGB(255,255,255) button3.FontFace = Font.fromName("PressStart2P") button3.Text = "Down"
 button3.Position = UDim2.new(0, 0,0.238-.1-.1, 0) button3.Size = UDim2.new(0.1,0,0.1,0) button3.TextScaled = true 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/JackMan-code/Testing2/refs/heads/main/Shiftlock"))()
 local bind  = Instance.new("BindableEvent")
 local i = .3
 local grav = Instance.new("BodyVelocity")
