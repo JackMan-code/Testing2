@@ -93,13 +93,6 @@ bind.Event:Connect(function()
 				
 			v:Activate()
 			v:FindFirstChild("Handle").CanCollide = false
-				if firetouchinterest and onetime == false then
-					onetime = true
-					task.spawn(function()
-						firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),1)
-				
-					end)
-					end
 		end
 	end
 		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
