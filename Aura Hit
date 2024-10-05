@@ -1,4 +1,5 @@
 local active = false
+local onetime = false
 local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
 gui.ResetOnSpawn = false
 local button =  Instance.new("TextButton",gui) button.BackgroundColor3 = Color3.fromRGB(0,0,0)button.TextColor3 = Color3.fromRGB(255,255,255) button.FontFace = Font.fromName("PressStart2P") button.Text = "Enable Exploit" button.Position = UDim2.new(0, 0,0.238, 0) button.Size = UDim2.new(0.1,0,0.1,0) button.TextScaled = true
@@ -92,10 +93,14 @@ bind.Event:Connect(function()
 				
 			v:Activate()
 			v:FindFirstChild("Handle").CanCollide = false
-				firetouchinterest(v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),game.Workspace:FindFirstChild("Tesseract").Torso,1)
+				if firetouchinterest and onetime == false then
+					onetime = true
+					task.spawn(function()
+						firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),1)
 				task.wait()
-				firetouchinterest(v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),game.Workspace:FindFirstChild("Tesseract").Torso,0)
-
+						firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),0)
+					end)
+					end
 		end
 	end
 		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
