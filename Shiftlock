@@ -4,49 +4,45 @@ local runservice = game:GetService("RunService")
 local CAS = game:GetService("ContextActionService")
 local player = players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local root = character:WaitForChild("HumanoidRootPart")
 local humanoid = character.Humanoid
-local camera = workspace.CurrentCamera
-local button = script.Parent
+local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+gui.ResetOnSpawn = false
 
 --Visiblity
+local button5 =  Instance.new("TextButton",gui) button5.BackgroundColor3 = Color3.fromRGB(0,0,0) button5.TextColor3 = Color3.fromRGB(255,255,255) button5.FontFace = Font.fromName("PressStart2P")
+button5.Text = "ShiftLock" button5.Position = UDim2.new(0.1, 0,0.238, 0) button5.Size = UDim2.new(0.1,0,0.1,0) button5.TextScaled = true 
 uis = game:GetService("UserInputService")
 ismobile = uis.TouchEnabled
-button.Visible = ismobile
 
-local states = {
-	OFF = "rbxasset://textures/ui/mouseLock_off@2x.png",
-	ON = "rbxasset://textures/ui/mouseLock_on@2x.png"
-}
+
+
 local MAX_LENGTH = 900000
 local active = false
 local ENABLED_OFFSET = CFrame.new(1.7, 0, 0)
 local DISABLED_OFFSET = CFrame.new(-1.7, 0, 0)
-local function UpdateImage(STATE)
-	button.Image = states[STATE]
-end
+
 local function UpdateAutoRotate(BOOL)
 	humanoid.AutoRotate = BOOL
 end
-local function GetUpdatedCameraCFrame(ROOT, CAMERA)
-	return CFrame.new(root.Position, Vector3.new(CAMERA.CFrame.LookVector.X * MAX_LENGTH, root.Position.Y, CAMERA.CFrame.LookVector.Z * MAX_LENGTH))
+local function GetUpdatedCameraCFrame(CAMERA)
+	return CFrame.new(players.LocalPlayer.Character.HumanoidRootPart.Position, Vector3.new(CAMERA.CFrame.LookVector.X * MAX_LENGTH, players.LocalPlayer.Character.HumanoidRootPart.Position.Y, CAMERA.CFrame.LookVector.Z * MAX_LENGTH))
 end
 local function EnableShiftlock()
 	UpdateAutoRotate(false)
-	UpdateImage("ON")
-	root.CFrame = GetUpdatedCameraCFrame(root, camera)
-	camera.CFrame = camera.CFrame * ENABLED_OFFSET
+	button5.TextColor3 = Color3.fromRGB(0,255,0)	
+
+	players.LocalPlayer.Character.HumanoidRootPart.CFrame = GetUpdatedCameraCFrame(game.Workspace.CurrentCamera)
+	game.Workspace.CurrentCamera.CFrame = game.Workspace.CurrentCamera.CFrame * ENABLED_OFFSET
 end
 local function DisableShiftlock()
 	UpdateAutoRotate(true)
-	UpdateImage("OFF")
-	camera.CFrame = camera.CFrame * DISABLED_OFFSET
+	button5.TextColor3 = Color3.fromRGB(255,0,0)	
+	game.Workspace.CurrentCamera.CFrame = game.Workspace.CurrentCamera.CFrame * DISABLED_OFFSET
 	pcall(function()
 		active:Disconnect()
 		active = nil
 	end)
 end
-UpdateImage("OFF")
 active = false
 function ShiftLock()
 	if not active then
@@ -59,7 +55,7 @@ function ShiftLock()
 end
 local ShiftLockButton = CAS:BindAction("ShiftLOCK", ShiftLock, false, "On")
 CAS:SetPosition("ShiftLOCK", UDim2.new(0.8, 0, 0.8, 0))
-button.MouseButton1Click:Connect(function()
+button5.MouseButton1Click:Connect(function()
 	if not active then
 		active = runservice.RenderStepped:Connect(function()
 			EnableShiftlock()
