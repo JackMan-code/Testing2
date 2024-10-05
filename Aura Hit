@@ -72,8 +72,7 @@ button4.Activated:Connect(function()
 				weld:Destroy()
 			end
 			v:FindFirstChild("Handle").Touched:Connect(function(hit)
-				firetouchinterest(hit,v:FindFirstChild("Handle"),0)
-				firetouchinterest(hit,v:FindFirstChild("Handle"),1)
+				print(hit:GetFullName())
 			end)
 			break;
 		end
