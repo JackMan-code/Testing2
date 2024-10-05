@@ -97,8 +97,7 @@ bind.Event:Connect(function()
 					onetime = true
 					task.spawn(function()
 						firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),1)
-				task.wait()
-						firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),0)
+				
 					end)
 					end
 		end
