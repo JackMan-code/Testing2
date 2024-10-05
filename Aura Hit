@@ -17,6 +17,8 @@ local i = .3
 local grav = Instance.new("BodyVelocity")
 grav.MaxForce = Vector3.one*math.huge
 grav.Velocity = Vector3.zero
+
+local FloatValue = -3.1
 game:GetService("UserInputService").JumpRequest:Connect(function()
 	if button3.Text == "Down" then
 		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.PrimaryPart.CFrame*CFrame.new(0,-1,0)) else game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.PrimaryPart.CFrame*CFrame.new(0,1,0)) 
@@ -42,7 +44,10 @@ button.Activated:Connect(function()
 		end
 		end
 		local grab = grav:Clone()
-		grab.Parent = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+		grab.Parent = game.Players.LocalPlayer.Character:FindFirstChild("Torso")
+		local spin = Instance.new("BodyAngularVelocity",game.Players.LocalPlayer.Character:FindFirstChild("Torso"))
+		spin.AngularVelocity = Vector3.new(0,69,0)
+		spin.MaxTorque = Vector3.new(0,math.huge,0)
 		button.Text = "Enabled"
 		button.TextColor3 = Color3.fromRGB(0,255,0)	
 else
@@ -92,8 +97,13 @@ bind.Event:Connect(function()
 			v:FindFirstChild("Handle").CanCollide = false
 		end
 	end
-		game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
-end
+		
+		if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection.Magnitude == 0 then
+			
+		else
+			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position+game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").MoveDirection*1)* CFrame.fromEulerAnglesXYZ(0,i,0))
+	end
+		end
 end)
 delay(0,function()
 	while true do
