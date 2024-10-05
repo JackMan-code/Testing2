@@ -72,9 +72,7 @@ button4.Activated:Connect(function()
 			if weld ~= nil then
 				weld:Destroy()
 			end
-			v:FindFirstChild("Handle").Touched:Connect(function(hit)
-				print(hit:GetFullName())
-			end)
+			
 			break;
 		end
 	end
@@ -90,8 +88,7 @@ bind.Event:Connect(function()
 	i+=.3
 	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 		if v:IsA("Tool") then
-				
-			v:Activate()
+				v:Activate()
 			v:FindFirstChild("Handle").CanCollide = false
 		end
 	end
