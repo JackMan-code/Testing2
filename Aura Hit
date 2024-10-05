@@ -92,8 +92,9 @@ bind.Event:Connect(function()
 				
 			v:Activate()
 			v:FindFirstChild("Handle").CanCollide = false
-				firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"),0)
-				firetouchinterest(game.Workspace:FindFirstChild("Tesseract").Torso,v:FindFirstChild("Handle"),1)
+				firetouchinterest(v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),game.Workspace:FindFirstChild("Tesseract").Torso,1)
+				task.wait()
+				firetouchinterest(v:FindFirstChild("Handle"):FindFirstChildWhichIsA("TouchTransmitter"),game.Workspace:FindFirstChild("Tesseract").Torso,0)
 
 		end
 	end
