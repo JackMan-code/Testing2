@@ -71,7 +71,6 @@ button4.Activated:Connect(function()
 			if weld ~= nil then
 				weld:Destroy()
 			end
-			local number = v.Number.Value
 			v:FindFirstChild("Handle").Touched:Connect(function(hit)
 				firetouchinterest(hit,v:FindFirstChild("Handle"),0)
 				firetouchinterest(hit,v:FindFirstChild("Handle"),1)
